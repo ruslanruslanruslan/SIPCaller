@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SIPCaller", "D:\wwwroot\SIPCaller\", "{71E39465-4909-4D90-9525-BB180DA0769E}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SIPCaller", ".", "{71E39465-4909-4D90-9525-BB180DA0769E}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_57984"
 		Debug.AspNetCompiler.PhysicalPath = "..\SIPCaller\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57984\"

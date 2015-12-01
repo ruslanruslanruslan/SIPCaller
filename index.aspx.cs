@@ -264,23 +264,43 @@ class CallHandlerSample : HttpApplication
   }
 }
 
-//namespace SIPCaller
+//namespace CSASPNETMessageBox
 //{
 public partial class index : System.Web.UI.Page
 {
   private static CallHandlerSample _callHandlerSample;
 
-  protected void ButtonStartCall_Click(object sender, EventArgs e)
+  protected void btnStartCall_Click(object sender, EventArgs e)
   {
-    if (!string.IsNullOrEmpty(textBoxSIPServer.Text) && !string.IsNullOrEmpty(textBoxOperator.Text) && !string.IsNullOrEmpty(textBoxCallbackPhone.Text))
+    if (!string.IsNullOrEmpty(tbSIPServer.Text) && !string.IsNullOrEmpty(tbSourceCallerID.Text) && !string.IsNullOrEmpty(tbTargetCallerID.Text))
     {
-      _callHandlerSample = new CallHandlerSample(textBoxOperator.Text, textBoxSIPServer.Text);
-      _callHandlerSample.Call(textBoxCallbackPhone.Text);
+        _callHandlerSample = new CallHandlerSample(tbSourceCallerID.Text, tbSIPServer.Text);
+        _callHandlerSample.Call(tbTargetCallerID.Text);
     }
+    PopupBox.Text = "call ended";
   }
 
-  protected void Page_Load(object sender, EventArgs e)
-  {
-  }
+    /* protected void btnInvokeConfirm_Click(object sender, EventArgs e)
+     {
+         string title = "Confirm";
+         string text = @"Hello everyone, I am an Asp.net MessageBox. You can set MessageBox.SuccessEvent and MessageBox.FailedEvent and Click Yes(OK) or No(Cancel) buttons for calling them. The Methods must be a WebMethod because client-side application will call web services.";
+         MessageBox messageBox = new MessageBox(text, title, MessageBox.MessageBoxIcons.Question, MessageBox.MessageBoxButtons.OKCancel, MessageBox.MessageBoxStyle.StyleB);
+         messageBox.SuccessEvent.Add("OkClick");
+         messageBox.SuccessEvent.Add("OkClick");
+         messageBox.FailedEvent.Add("CancalClick");
+         PopupBox.Text = messageBox.Show(this);
+     }
+
+     [WebMethod]
+     public static string OkClick(object sender, EventArgs e)
+     {
+         return "You have clicked Ok button";
+     }
+
+     [WebMethod]
+     public static string CancalClick(object sender, EventArgs e)
+     {
+         return "You have clicked Cancel button.";
+     }*/
+    //}
 }
-//}

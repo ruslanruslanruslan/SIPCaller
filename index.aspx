@@ -12,34 +12,51 @@
       <table>
         <tr>
           <td>
-            <asp:Literal ID="Literal2" runat="server" Text="SIP Server:"></asp:Literal>
+            <asp:Literal ID="lSIPServer" runat="server" Text="SIP Server:"></asp:Literal>
           </td>
           <td>
-            <asp:TextBox ID="textBoxSIPServer" runat="server"></asp:TextBox>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <asp:Literal ID="Literal1" runat="server" Text="Operator's telephone number:"></asp:Literal>
-          </td>
-          <td>
-            <asp:TextBox ID="textBoxOperator" runat="server"></asp:TextBox>
+            <asp:TextBox ID="tbSIPServer" runat="server"></asp:TextBox>
           </td>
         </tr>
         <tr>
           <td>
-            <asp:Literal ID="Literal4" runat="server" Text="Customer's telephone number:"></asp:Literal>
+            <asp:Literal ID="lUserName" runat="server" Text="User name:"></asp:Literal>
           </td>
           <td>
-            <asp:TextBox ID="textBoxCallbackPhone" runat="server"></asp:TextBox>
+            <asp:TextBox ID="tbUserName" runat="server"></asp:TextBox>
           </td>
         </tr>
         <tr>
           <td>
-            <asp:Button ID="ButtonStartCall" runat="server" OnClick="ButtonStartCall_Click" Text="Submit" />
+            <asp:Literal ID="lUserPassword" runat="server" Text="User password:"></asp:Literal>
+          </td>
+          <td>
+            <asp:TextBox ID="tbUserPassword" runat="server"></asp:TextBox>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <asp:Literal ID="lSourceCallerID" runat="server" Text="Operator's telephone number:"></asp:Literal>
+          </td>
+          <td>
+            <asp:TextBox ID="tbSourceCallerID" runat="server"></asp:TextBox>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <asp:Literal ID="lTargetCallerID" runat="server" Text="Customer's telephone number:"></asp:Literal>
+          </td>
+          <td>
+            <asp:TextBox ID="tbTargetCallerID" runat="server"></asp:TextBox>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <asp:Button ID="btnStartCall" runat="server" OnClick="btnStartCall_Click" Text="Submit" />
           </td>
         </tr>
       </table>
+        <asp:Literal ID="PopupBox" runat="server"></asp:Literal>
     </div>
   </form>
 </body>
