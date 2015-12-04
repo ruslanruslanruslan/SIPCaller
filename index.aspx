@@ -31,7 +31,7 @@
             <asp:Literal ID="lUserPassword" runat="server" Text="User password:"></asp:Literal>
           </td>
           <td>
-            <asp:TextBox ID="tbUserPassword" runat="server"></asp:TextBox>
+            <asp:TextBox ID="tbUserPassword" TextMode="Password" runat="server"></asp:TextBox>
           </td>
         </tr>
         <tr>

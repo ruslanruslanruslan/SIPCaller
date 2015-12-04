@@ -32,7 +32,7 @@ class CallHandlerSample : HttpApplication
   /// </summary>
   /// <param name="registerName">The SIP ID what will registered into your PBX</param>
   /// <param name="domainHost">The address of your PBX</param>
-  public CallHandlerSample(string registerName, string domainHost)
+  public CallHandlerSample(string registerPhone, string registerName, string registerPassword, string domainHost)
   {
     microphone = Microphone.GetDefaultDevice();
     speaker = Speaker.GetDefaultDevice();
@@ -40,7 +40,7 @@ class CallHandlerSample : HttpApplication
     mediaSender = new PhoneCallAudioSender();
     mediaReceiver = new PhoneCallAudioReceiver();
 
-    InitializeSoftPhone(registerName, domainHost);
+    InitializeSoftPhone(registerPhone, registerName, registerPassword, domainHost);
   }
 
 
@@ -51,13 +51,13 @@ class CallHandlerSample : HttpApplication
   /// </summary>
   /// <param name="registerName">The SIP ID what will registered into your PBX</param>
   /// <param name="domainHost">The address of your PBX</param>
-  private void InitializeSoftPhone(string registerName, string domainHost)
+  private void InitializeSoftPhone(string registerPhone, string registerName, string registerPassword, string domainHost)
   {
     try
     {
       softPhone = SoftPhoneFactory.CreateSoftPhone(5700, 5800);
       softPhone.IncomingCall += softPhone_IncomingCall;
-      phoneLine = softPhone.CreatePhoneLine(new SIPAccount(true, registerName, registerName, registerName, registerName, domainHost, 5060));
+      phoneLine = softPhone.CreatePhoneLine(new SIPAccount(true, registerPhone, registerPhone, registerName, registerPassword, domainHost, 5060));
       phoneLine.RegistrationStateChanged += phoneLine_PhoneLineInformation;
 
       softPhone.RegisterPhoneLine(phoneLine);
@@ -272,9 +272,10 @@ public partial class index : System.Web.UI.Page
 
   protected void btnStartCall_Click(object sender, EventArgs e)
   {
-    if (!string.IsNullOrEmpty(tbSIPServer.Text) && !string.IsNullOrEmpty(tbSourceCallerID.Text) && !string.IsNullOrEmpty(tbTargetCallerID.Text))
+    if (!string.IsNullOrEmpty(tbSIPServer.Text) && !string.IsNullOrEmpty(tbUserName.Text) && !string.IsNullOrEmpty(tbSourceCallerID.Text) && 
+      !string.IsNullOrEmpty(tbUserPassword.Text)  && !string.IsNullOrEmpty(tbTargetCallerID.Text))
     {
-        _callHandlerSample = new CallHandlerSample(tbSourceCallerID.Text, tbSIPServer.Text);
+        _callHandlerSample = new CallHandlerSample(tbSourceCallerID.Text, tbUserName.Text, tbUserPassword.Text, tbSIPServer.Text);
         _callHandlerSample.Call(tbTargetCallerID.Text);
     }
     PopupBox.Text = "call ended";
