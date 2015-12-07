@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
 
+<%@ Register src="WebUserControl.ascx" tagname="WebUserControl" tagprefix="uc1" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -51,7 +53,7 @@
           </td>
         </tr>
         <tr>
-          <td>
+          <td><uc1:WebUserControl ID="WebUserControl1" runat="server" />
             <asp:Button ID="btnStartCall" runat="server" OnClick="btnStartCall_Click" Text="Submit" />
           </td>
         </tr>
