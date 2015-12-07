@@ -6,6 +6,7 @@ using System.Web.Services;
 using Ozeki.Media.MediaHandlers;
 using Ozeki.VoIP;
 using Ozeki.VoIP.SDK;
+using System.Diagnostics;
 
 /// <summary>
 /// Summary description for Class1
@@ -70,7 +71,7 @@ public class CallHandlerSample : HttpApplication
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("You didn't give your local IP adress, so the program won't run properly.\n {0}", ex.Message);
+			Debug.WriteLine("You didn't give your local IP adress, so the program won't run properly.\n {0}", ex.Message);
 		}
 	}
 
@@ -82,7 +83,7 @@ public class CallHandlerSample : HttpApplication
 	{
 		if (phoneLineInformation != RegState.RegistrationSucceeded)
 		{
-			Console.WriteLine("Phone line state is not valid!");
+			Debug.WriteLine("Phone line state is not valid!");
 			return;
 		}
 
@@ -105,16 +106,16 @@ public class CallHandlerSample : HttpApplication
 	private void phoneLine_PhoneLineInformation(object sender, RegistrationStateChangedArgs e)
 	{
 		phoneLineInformation = e.State;
-		Console.WriteLine("Register name:" + ((IPhoneLine)sender).SIPAccount.RegisterName);
+		Debug.WriteLine("Register name:" + ((IPhoneLine)sender).SIPAccount.RegisterName);
 
 		if (e.State == RegState.RegistrationSucceeded)
 		{
-			Console.WriteLine("Registration succeeded. Online.");
+			Debug.WriteLine("Registration succeeded. Online.");
 			OnRegistrationSucceded();
 		}
 		else
 		{
-			Console.WriteLine("Current state:" + e.State);
+			Debug.WriteLine("Current state:" + e.State);
 		}
 	}
 
@@ -125,7 +126,7 @@ public class CallHandlerSample : HttpApplication
 	/// <param name="e"></param>
 	private void softPhone_IncomingCall(object sender, VoIPEventArgs<IPhoneCall> e)
 	{
-		Console.WriteLine("Incoming call from {0}", e.Item.DialInfo);
+		Debug.WriteLine("Incoming call from {0}", e.Item.DialInfo);
 		call = e.Item;
 		WireUpCallEvents();
 		OnIncomingCallReceived(e.Item);
@@ -138,7 +139,7 @@ public class CallHandlerSample : HttpApplication
 	/// <param name="e"></param>
 	private void call_CallStateChanged(object sender, CallStateChangedArgs e)
 	{
-		Console.WriteLine("Call state changed: " + e.State);
+		Debug.WriteLine("Call state changed: " + e.State);
 
 		switch (e.State)
 		{
