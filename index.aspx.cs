@@ -5,6 +5,17 @@
 //{
 public partial class index : System.Web.UI.Page
 {
+  public index()
+  {
+    CallHandlerSample.CallHandler.OnAccountStateChanged += AccountStateChanged;
+    CallHandlerSample.CallHandler.OnCallStateChanged += CallStateChanged;
+  }
+
+  ~index()
+  {
+    CallHandlerSample.CallHandler.OnAccountStateChanged -= AccountStateChanged;
+    CallHandlerSample.CallHandler.OnCallStateChanged -= CallStateChanged;
+  }
 
   protected void Page_Load(object sender, EventArgs e)
   {
@@ -27,6 +38,16 @@ public partial class index : System.Web.UI.Page
     PopupBox.Text = messageBox.Show(this);
   }
 
+  private void AccountStateChanged(string state)
+  {
+    tbAccountState.Text = state;
+  }
+
+  private void CallStateChanged(string state)
+  {
+    tbCallState.Text = state;
+  }
+
   protected void btnStartCall_Click(object sender, EventArgs e)
   {
     Response.Cookies["sipServerName"].Value = tbSIPServer.Text;
@@ -37,10 +58,15 @@ public partial class index : System.Web.UI.Page
 
     if (!string.IsNullOrEmpty(tbSIPServer.Text) && !string.IsNullOrEmpty(tbUserName.Text) && !string.IsNullOrEmpty(tbSourceCallerID.Text) && //tbSourceCallerID - необязательный параметр!
       !string.IsNullOrEmpty(tbUserPassword.Text) && !string.IsNullOrEmpty(tbTargetCallerID.Text))
-      CallHandlerSample.Call(tbUserName.Text, tbUserPassword.Text, tbSIPServer.Text, 5060, tbTargetCallerID.Text);
+      CallHandlerSample.CallHandler.Call(tbUserName.Text, tbUserPassword.Text, tbSIPServer.Text, 5060, tbTargetCallerID.Text);
     else
       AddLog("type all data");
     AddLog("call finished");
   }
-
+  
+  protected void btnReleaseCall_Click(object sender, EventArgs e)
+  {
+    CallHandlerSample.CallHandler.Release();
+    AddLog("call finished by user");
+  }
 }

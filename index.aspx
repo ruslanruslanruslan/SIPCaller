@@ -54,7 +54,24 @@
         </tr>
         <tr>
           <td><uc1:WebUserControl ID="WebUserControl1" runat="server" />
-            <asp:Button ID="btnStartCall" runat="server" OnClick="btnStartCall_Click" Text="Submit" />
+            <asp:Button ID="btnStartCall" runat="server" OnClick="btnStartCall_Click" Text="Call" />
+            <asp:Button ID="btnReleaseCall" runat="server" OnClick="btnReleaseCall_Click" Text="Release" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <asp:Literal ID="lAccountState" runat="server" Text="Account state:"/>
+          </td>
+          <td>
+            <asp:TextBox ID="tbAccountState" runat="server" ReadOnly="true"/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <asp:Literal ID="lCallState" runat="server" Text="Call state:"/>
+          </td>
+          <td>
+            <asp:TextBox ID="tbCallState" runat="server" ReadOnly="true" />
           </td>
         </tr>
       </table>

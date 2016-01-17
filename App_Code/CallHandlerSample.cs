@@ -1,12 +1,51 @@
-﻿using System;
-using System.Net;
-
-using SIPSorcery.SIP;
-using SIPSorcery.SIP.App;
-
+﻿using Sipek.Common;
+using Sipek.Common.CallControl;
+using Sipek.Sip;
 
 public class CallHandlerSample
 {
+  private int call;
+
+  public delegate void StateChanged(string state);
+
+  public event StateChanged OnAccountStateChanged;
+  public event StateChanged OnCallStateChanged;
+
+  CCallManager CallManager
+  {
+    get { return CCallManager.Instance; }
+  }
+
+  protected CallHandlerSample()
+  {
+    CallManager.CallStateRefresh += new DCallStateRefresh(CallStateRefresh);
+    pjsipRegistrar.Instance.AccountStateChanged += new DAccountStateChanged(AccountStateChanged);
+    CallManager.StackProxy = pjsipStackProxy.Instance;
+  }
+
+  private void AccountStateChanged(int accountId, int accState)
+  {
+    OnAccountStateChanged(accState.ToString());
+  }
+
+  private void CallStateRefresh(int sessionId)
+  {
+    OnCallStateChanged(CallManager[sessionId].StateId.ToString());
+  }
+
+  private sealed class CallHandlerSampleCreator
+  {
+    private static readonly CallHandlerSample instance = new CallHandlerSample();
+    public static CallHandlerSample Instance
+    {
+      get { return instance; }
+    }
+  }
+  public static CallHandlerSample CallHandler
+  {
+    get { return CallHandlerSampleCreator.Instance; }
+  }
+
   /// <summary>
   /// Calls the specified username.
   /// </summary>
@@ -15,32 +54,22 @@ public class CallHandlerSample
   /// <param name="server">The server.</param>
   /// <param name="port">The port.</param>
   /// <param name="dialedNumber">The dialed number.</param>
-  public static void Call(string username, string password, string server, int port, string dialedNumber)
-	{
-		if (string.IsNullOrEmpty(dialedNumber))
-			return;
+  public void Call(string username, string password, string server, int port, string dialedNumber)
+  {
+    var Config = new SIPConfig(new SIPAccount(username, password, server), port);
+    CallManager.Config = Config;
+    pjsipStackProxy.Instance.Config = Config;
+    pjsipRegistrar.Instance.Config = Config;
 
-    try
-    {
-      // Set up the SIP transport infrastructure.
-      var sipTransport = new SIPTransport(SIPDNSManager.ResolveSIPService, new SIPTransactionEngine());
-      var udpChannel = new SIPUDPChannel(new IPEndPoint(IPAddress.Any, 5060));
-      sipTransport.AddSIPChannel(udpChannel);
+    CallManager.Initialize(pjsipStackProxy.Instance);
+    pjsipRegistrar.Instance.registerAccounts();
 
-      // Create a SIP user agent client that can be used to initiate calls to external SIP devices and place a call.
-      var uac = new SIPClientUserAgent(sipTransport, null, null, null, null);
-      var uri = /*"sip:" + */username + "@" + server + ":" + port;
-      var from = /*"<sip:" + */username + "@" + server/* + ">"*/;
-      var to = /*"<sip:" + */dialedNumber/* + ">"*/;
-      var callDescriptor = new SIPCallDescriptor(username, password, uri, from, to, null, null, null, 
-        SIPCallDirection.Out, "application/sdp", null, null);
-      uac.Call(callDescriptor);
-
-      sipTransport.Shutdown();
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine("Exception Main. " + ex);
-    }
+    call = CallManager.CreateSimpleOutboundCall(dialedNumber);
   }
+
+  public void Release()
+  {
+    CallManager.OnUserRelease(call);
+  }
+
 }
